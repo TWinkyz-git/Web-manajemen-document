@@ -6,9 +6,12 @@ use App\Models\Document;
 use App\Models\Category;
 use App\Services\AuditLogService;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class DocumentController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index()
     {
         $documents = Document::with('user', 'category')
