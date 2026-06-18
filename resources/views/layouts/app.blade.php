@@ -114,7 +114,7 @@
             <nav>
                 <a href="{{ route('dashboard') }}">Dashboard</a>
                 <a href="{{ route('documents.index') }}">Documents</a>
-                <a href="#">Categories</a>
+                <a href="{{ route('categories.index') }}">Categories</a>
                 <a href="#">Logs</a>
                 <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                     @csrf
