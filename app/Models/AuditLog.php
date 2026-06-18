@@ -21,23 +21,18 @@ class AuditLog extends Model
 
     protected $casts = [
         'metadata' => 'json',
+        'created_at' => 'datetime',
     ];
 
     public $timestamps = false;
 
-    /**
-     * Relasi ke User
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Relasi ke Document
-     */
     public function document(): BelongsTo
     {
-        return $this->belongsTo(Document::class)->nullable();
+        return $this->belongsTo(Document::class);
     }
 }

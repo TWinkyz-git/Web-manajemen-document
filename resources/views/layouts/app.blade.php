@@ -112,6 +112,7 @@
         <div class="container">
             <h1>📁 DMS</h1>
             <nav>
+                <a href="{{ route('dashboard') }}">Dashboard</a>
                 <a href="{{ route('documents.index') }}">Documents</a>
                 <a href="#">Categories</a>
                 <a href="#">Logs</a>
