@@ -3,8 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DashboardController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AuditLogController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,6 +26,9 @@ Route::middleware('auth')->group(function () {
 
     // Categories Routes
     Route::resource('categories', CategoryController::class)->except(['show']);
+
+    // Audit Logs Routes
+    Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
 });
 
 require __DIR__.'/auth.php';

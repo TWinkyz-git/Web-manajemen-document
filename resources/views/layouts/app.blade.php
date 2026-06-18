@@ -115,7 +115,7 @@
                 <a href="{{ route('dashboard') }}">Dashboard</a>
                 <a href="{{ route('documents.index') }}">Documents</a>
                 <a href="{{ route('categories.index') }}">Categories</a>
-                <a href="#">Logs</a>
+                <a href="{{ route('audit-logs.index') }}">Logs</a>
                 <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                     @csrf
                     <button type="submit" style="background: none; border: none; color: #fff; cursor: pointer; font-weight: 700; text-decoration: underline;">Logout</button>
