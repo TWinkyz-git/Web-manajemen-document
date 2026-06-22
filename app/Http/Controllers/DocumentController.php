@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Services\AuditLogService;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
@@ -39,7 +41,16 @@ class DocumentController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('documents', $fileName, 'public');
+            
+            // Read file content
+            $fileContent = file_get_contents($file->getRealPath());
+            
+            // Encrypt file content
+            $encryptedContent = Crypt::encryptString($fileContent);
+            
+            // Save encrypted file
+            $filePath = 'documents/' . $fileName . '.encrypted';
+            Storage::disk('public')->put($filePath, $encryptedContent);
 
             $document = Document::create([
                 'user_id' => auth()->id(),
@@ -50,6 +61,7 @@ class DocumentController extends Controller
                 'file_path' => $filePath,
                 'file_type' => $file->getClientOriginalExtension(),
                 'file_size' => $file->getSize(),
+                'encryption_key' => 'aes-256-gcm',
                 'status' => 'published',
             ]);
 
@@ -121,6 +133,48 @@ class DocumentController extends Controller
             documentId: $document->id
         );
 
-        return response()->download(storage_path('app/public/' . $document->file_path), $document->file_name);
+        // Read encrypted file
+        $encryptedContent = Storage::disk('public')->get($document->file_path);
+        
+        // Decrypt file content
+        $decryptedContent = Crypt::decryptString($encryptedContent);
+        
+        // Return decrypted file as download
+        return response()->streamDownload(function () use ($decryptedContent) {
+            echo $decryptedContent;
+        }, $document->file_name);
+    }
+
+    public function preview(Document $document)
+    {
+        $this->authorize('view', $document);
+
+        AuditLogService::log(
+            action: 'preview_document',
+            documentId: $document->id
+        );
+
+        try {
+            // Read encrypted file
+            $encryptedContent = Storage::disk('public')->get($document->file_path);
+            
+            // Decrypt file content
+            $decryptedContent = Crypt::decryptString($encryptedContent);
+        } catch (\Exception $e) {
+            // File lama tidak ter-encrypt, langsung return raw file
+            $decryptedContent = Storage::disk('public')->get($document->file_path);
+        }
+        
+        // Return file dengan content-type yang sesuai
+        $mimeType = 'application/octet-stream';
+        if (strtolower($document->file_type) === 'pdf') {
+            $mimeType = 'application/pdf';
+        } elseif (in_array(strtolower($document->file_type), ['jpg', 'jpeg', 'png', 'gif'])) {
+            $mimeType = 'image/' . strtolower($document->file_type);
+        }
+        
+        return response($decryptedContent, 200)
+            ->header('Content-Type', $mimeType)
+            ->header('Content-Disposition', 'inline; filename="' . $document->file_name . '"');
     }
 }
