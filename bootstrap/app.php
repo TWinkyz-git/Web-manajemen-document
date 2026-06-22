@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         
         $middleware->alias([
             'permission' => \App\Http\Middleware\CheckPermission::class,
+            '2fa_verified' => \App\Http\Middleware\Check2FAVerified::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
