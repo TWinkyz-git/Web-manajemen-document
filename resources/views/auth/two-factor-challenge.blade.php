@@ -40,7 +40,12 @@
 
         <form method="POST" action="{{ route('2fa.resend') }}">
             @csrf
-            <button type="submit" style="width: 100%; padding: 12px 24px; background: transparent; color: #fff; border: 3px solid #fff; font-weight: 700; font-size: 14px; cursor: pointer; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px;">Resend Code</button>
+            <button type="submit" style="width: 100%; padding: 12px 24px; background: transparent; color: #fff; border: 3px solid #fff; font-weight: 700; font-size: 14px; cursor: pointer; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px;">Resend Code</button>
+        </form>
+
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" style="width: 100%; padding: 12px 24px; background: #ff0000; color: #fff; border: none; font-weight: 700; font-size: 14px; cursor: pointer; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px;">Logout</button>
         </form>
     </div>
 </div>
