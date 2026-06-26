@@ -42,6 +42,32 @@ class User extends Authenticatable
     }
 
     /**
+     * Relasi ke Team yang di-create user (owned teams)
+     */
+    public function ownedTeams(): HasMany
+    {
+        return $this->hasMany(Team::class, 'created_by');
+    }
+
+    /**
+     * Relasi ke Team melalui team_members (teams yang user join)
+     */
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class, 'team_members', 'user_id', 'team_id')
+                    ->withPivot('role')
+                    ->withTimestamps();
+    }
+
+    /**
+     * Relasi ke TeamMember
+     */
+    public function teamMemberships(): HasMany
+    {
+        return $this->hasMany(TeamMember::class);
+    }
+
+    /**
      * Relasi ke DocumentPermission
      */
     public function documentPermissions(): HasMany

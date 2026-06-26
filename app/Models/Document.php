@@ -13,6 +13,7 @@ class Document extends Model
 
     protected $fillable = [
         'user_id',
+        'team_id',
         'category_id',
         'title',
         'description',
@@ -34,6 +35,14 @@ class Document extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Relasi ke Team (many-to-one)
+     */
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class)->nullable();
     }
 
     /**

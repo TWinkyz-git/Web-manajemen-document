@@ -17,6 +17,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/2fa', [TwoFactorController::class, 'show'])->name('2fa.show');
     Route::post('/2fa/verify', [TwoFactorController::class, 'verify'])->name('2fa.verify');
     Route::post('/2fa/resend', [TwoFactorController::class, 'resend'])->name('2fa.resend');
+    
+    // Document Preview (tidak perlu 2FA)
+    Route::get('/documents/{document}/preview', [DocumentController::class, 'preview'])->name('documents.preview');
 });
 
 Route::middleware(['auth', 'verified', '2fa_verified'])->group(function () {
@@ -35,6 +38,12 @@ Route::middleware(['auth', 'verified', '2fa_verified'])->group(function () {
 
     // Audit Logs Routes
     Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
+
+    // Teams Routes
+    Route::resource('teams', TeamController::class);
+    Route::post('/teams/{team}/members', [TeamController::class, 'addMember'])->name('teams.addMember');
+    Route::delete('/teams/{team}/members/{member}', [TeamController::class, 'removeMember'])->name('teams.removeMember');
+    Route::patch('/teams/{team}/members/{member}/role', [TeamController::class, 'updateMemberRole'])->name('teams.updateMemberRole');
 });
 
 require __DIR__.'/auth.php';
