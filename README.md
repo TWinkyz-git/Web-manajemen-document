@@ -1,24 +1,45 @@
-# 📁 Document Management System
+# Document Management System (DMS)
 
-Secure document management system built with Laravel, featuring 
-role-based access control, audit logging, and file encryption.
+Sistem Manajemen Dokumen dengan fokus keamanan enterprise-grade.
 
-## 🛡️ Security Features
-- Role-Based Access Control (RBAC)
-- Two-Factor Authentication (2FA)
-- Audit Logging
-- File Encryption
-- CSRF & XSS Protection
-- Rate Limiting
+## Features
 
-## 🛠️ Tech Stack
-- **Backend**: Laravel 11
-- **Database**: MySQL
-- **Frontend**: Blade + TailwindCSS
-- **Server**: Nginx (Laragon)
+✅ Two-Factor Authentication (2FA)
+✅ File Encryption (AES-256-GCM)  
+✅ Role-Based Access Control (RBAC)
+✅ Team Collaboration
+✅ Document Management
+✅ Audit Logging
 
-## ⚙️ Installation
-(akan diisi setelah project selesai)
+## Tech Stack
 
-## 📸 Screenshots
-(akan diisi setelah project selesai)
+- Laravel 13
+- MySQL
+- Blade + TailwindCSS
+- Nginx
+
+## Quick Start
+
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
+```
+
+Visit http://localhost:8000
+
+## Default Test Accounts
+
+- **Admin:** admin@example.com / password123
+- **Manager:** manager@example.com / password123
+- **Staff:** staff@example.com / password123
+
+## Security
+
+- Passwords: bcrypt hashed
+- Files: AES-256-GCM encrypted
+- 2FA: Email OTP (6 digits)
+- RBAC: Role-based permissions
+- Audit: Complete action trail
