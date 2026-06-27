@@ -3,9 +3,10 @@
 @section('title', '2FA Verification')
 
 @section('content')
-<div style="max-width: 500px;">
-    <div style="border: 4px solid #000; padding: 48px 40px; background: #F5F5F0; box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1);">
-        <h2 style="font-size: 36px; font-weight: 900; text-transform: uppercase; margin-bottom: 12px; letter-spacing: -1px;">2FA</h2>
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; background: #fff;">
+    <div style="border: 4px solid #000; padding: 48px 40px; background: #F5F5F0; box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1); max-width: 500px; width: 100%;">
+        
+        <h2 style="font-size: 36px; font-weight: 900; text-transform: uppercase; margin-bottom: 12px; letter-spacing: -1px; color: #000;">2FA</h2>
         <p style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 3px solid #FF8C00;">Verification Code</p>
 
         <p style="color: #666; font-size: 14px; margin-bottom: 32px; line-height: 1.6;">
@@ -31,7 +32,7 @@
                        required 
                        autofocus
                        style="width: 100%; padding: 16px; border: 3px solid #000; background: #fff; color: #000; font-size: 32px; text-align: center; letter-spacing: 8px; font-weight: 900; font-family: 'Courier New', monospace; transition: all 0.2s;"
-                       onfocus="this.style.borderColor='#FF8C00'; this.style.boxShadow='0 0 0 3px rgba(255, 140, 0, 0.1)';"
+                       onfocus="this.style.borderColor='#FF8C00'; this.style.boxShadow='0 0 0 3px rgba(255, 140, 0, 0.2)';"
                        onblur="this.style.borderColor='#000'; this.style.boxShadow='';">
                 @error('otp')
                     <span style="color: #D32F2F; font-size: 11px; margin-top: 6px; display: block; font-weight: 700; text-transform: uppercase;">{{ $message }}</span>
