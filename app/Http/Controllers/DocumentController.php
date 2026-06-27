@@ -16,9 +16,25 @@ class DocumentController extends Controller
 
     public function index()
     {
-        $documents = Document::with('user', 'category')
-            ->where('user_id', auth()->id())
-            ->paginate(10);
+        $query = Document::with('user', 'category', 'team');
+        
+        // Jika user punya team preference, filter by team
+        if (request('team_id')) {
+            $teamId = request('team_id');
+            $query->where(function ($q) use ($teamId) {
+                $q->where('user_id', auth()->id())
+                  ->orWhere('team_id', $teamId);
+            });
+        } else {
+            // Default: show user's own documents + team documents
+            $query->where(function ($q) {
+                $q->where('user_id', auth()->id());
+                // or where user is team member
+                $q->orWhereIn('team_id', auth()->user()->teams()->pluck('id'));
+            });
+        }
+        
+        $documents = $query->paginate(10);
         
         return view('documents.index', compact('documents'));
     }

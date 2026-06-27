@@ -17,6 +17,13 @@ class DocumentPolicy
             return true;
         }
 
+        // Jika document punya team, hanya team members bisa view
+        if ($document->team_id) {
+            return $document->team->members()
+                ->where('user_id', $user->id)
+                ->exists();
+        }
+
         // Shared user bisa view jika punya permission
         return $document->permissions()
             ->where('user_id', $user->id)
@@ -28,7 +35,20 @@ class DocumentPolicy
      */
     public function update(User $user, Document $document): bool
     {
-        return $document->user_id === $user->id;
+        // Owner bisa update
+        if ($document->user_id === $user->id) {
+            return true;
+        }
+
+        // Jika document punya team, hanya team leader bisa update
+        if ($document->team_id) {
+            return $document->team->members()
+                ->where('user_id', $user->id)
+                ->where('role', 'leader')
+                ->exists();
+        }
+
+        return false;
     }
 
     /**
@@ -36,7 +56,20 @@ class DocumentPolicy
      */
     public function delete(User $user, Document $document): bool
     {
-        return $document->user_id === $user->id;
+        // Owner bisa delete
+        if ($document->user_id === $user->id) {
+            return true;
+        }
+
+        // Jika document punya team, hanya team leader bisa delete
+        if ($document->team_id) {
+            return $document->team->members()
+                ->where('user_id', $user->id)
+                ->where('role', 'leader')
+                ->exists();
+        }
+
+        return false;
     }
 
     /**
@@ -47,6 +80,13 @@ class DocumentPolicy
         // Owner bisa download
         if ($document->user_id === $user->id) {
             return true;
+        }
+
+        // Jika document punya team, team members bisa download
+        if ($document->team_id) {
+            return $document->team->members()
+                ->where('user_id', $user->id)
+                ->exists();
         }
 
         // Shared user dengan permission download
