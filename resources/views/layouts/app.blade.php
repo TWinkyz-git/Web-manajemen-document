@@ -140,7 +140,9 @@
                 <a href="{{ route('dashboard') }}">Dashboard</a>
                 <a href="{{ route('documents.index') }}">Documents</a>
                 <a href="{{ route('categories.index') }}">Categories</a>
-                <a href="{{ route('audit-logs.index') }}">Logs</a>
+                @if(auth()->user()->hasRole('admin'))
+                    <a href="{{ route('audit-logs.index') }}">Logs</a>
+                @endif
                 <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                     @csrf
                     <button type="submit" style="background: none; border: none; cursor: pointer; font-weight: 700; font-family: 'Courier New', monospace;">Logout</button>
