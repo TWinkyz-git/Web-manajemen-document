@@ -23,14 +23,14 @@ class DocumentController extends Controller
             $teamId = request('team_id');
             $query->where(function ($q) use ($teamId) {
                 $q->where('user_id', auth()->id())
-                  ->orWhere('team_id', $teamId);
+                ->orWhere('team_id', $teamId);
             });
         } else {
             // Default: show user's own documents + team documents
             $query->where(function ($q) {
                 $q->where('user_id', auth()->id());
                 // or where user is team member
-                $q->orWhereIn('team_id', auth()->user()->teams()->pluck('id'));
+                $q->orWhereIn('team_id', auth()->user()->teams()->pluck('teams.id'));
             });
         }
         
