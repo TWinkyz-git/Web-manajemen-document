@@ -13,9 +13,9 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #000;
-            color: #fff;
+            font-family: 'Courier New', monospace;
+            background: #fff;
+            color: #000;
             line-height: 1.6;
         }
 
@@ -26,7 +26,8 @@
         }
 
         header {
-            border-bottom: 3px solid #fff;
+            background: #fff;
+            border-bottom: 4px solid #000;
             padding: 24px 0;
             margin-bottom: 40px;
         }
@@ -36,6 +37,7 @@
             font-weight: 900;
             letter-spacing: -1px;
             text-transform: uppercase;
+            color: #000;
         }
 
         nav {
@@ -45,24 +47,38 @@
         }
 
         nav a {
-            color: #fff;
+            color: #FF8C00;
             text-decoration: none;
             font-weight: 700;
             border-bottom: 3px solid transparent;
             padding-bottom: 4px;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
         }
 
         nav a:hover {
-            border-bottom-color: #fff;
+            border-bottom-color: #FF8C00;
+            transform: translate(0, -2px);
+        }
+
+        nav button {
+            color: #FF8C00;
+            font-weight: 700;
+            border-bottom: 3px solid transparent;
+            padding-bottom: 4px;
+            transition: all 0.2s;
+        }
+
+        nav button:hover {
+            border-bottom-color: #FF8C00;
+            transform: translate(0, -2px);
         }
 
         .btn {
             display: inline-block;
             padding: 12px 24px;
-            background: #fff;
-            color: #000;
-            border: none;
+            background: #FF8C00;
+            color: #fff;
+            border: 3px solid #FF8C00;
             font-weight: 700;
             font-size: 14px;
             cursor: pointer;
@@ -70,17 +86,26 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             transition: all 0.2s;
+            font-family: 'Courier New', monospace;
         }
 
         .btn:hover {
             transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.3);
+            box-shadow: 4px 4px 0 #FF8C00;
+            background: #fff;
+            color: #FF8C00;
         }
 
         .btn-secondary {
             background: transparent;
-            border: 3px solid #fff;
+            border: 3px solid #000;
+            color: #000;
+        }
+
+        .btn-secondary:hover {
+            background: #000;
             color: #fff;
+            box-shadow: 4px 4px 0 #000;
         }
 
         .alert {
@@ -91,15 +116,15 @@
         }
 
         .alert-success {
-            background: #000;
-            border-color: #00ff00;
-            color: #00ff00;
+            background: #E8F5E9;
+            border-color: #4CAF50;
+            color: #2E7D32;
         }
 
         .alert-error {
-            background: #000;
-            border-color: #ff0000;
-            color: #ff0000;
+            background: #FFEBEE;
+            border-color: #D32F2F;
+            color: #D32F2F;
         }
 
         main {
@@ -118,7 +143,7 @@
                 <a href="{{ route('audit-logs.index') }}">Logs</a>
                 <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                     @csrf
-                    <button type="submit" style="background: none; border: none; color: #fff; cursor: pointer; font-weight: 700; text-decoration: underline;">Logout</button>
+                    <button type="submit" style="background: none; border: none; cursor: pointer; font-weight: 700; font-family: 'Courier New', monospace;">Logout</button>
                 </form>
             </nav>
         </div>
