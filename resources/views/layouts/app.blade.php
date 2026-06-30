@@ -47,7 +47,7 @@
         }
 
         nav a {
-            color: #FF8C00;
+            color: #000;
             text-decoration: none;
             font-weight: 700;
             border-bottom: 3px solid transparent;
@@ -56,12 +56,12 @@
         }
 
         nav a:hover {
-            border-bottom-color: #FF8C00;
+            border-bottom-color: #0000;
             transform: translate(0, -2px);
         }
 
         nav button {
-            color: #FF8C00;
+            color: #000;
             font-weight: 700;
             border-bottom: 3px solid transparent;
             padding-bottom: 4px;
@@ -129,6 +129,20 @@
 
         main {
             margin-bottom: 60px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        textarea,
+        select {
+            color: #000 !important;
+            background: #fff !important;
+            border: 2px solid #000 !important;
+        }
+
+        input::placeholder {
+            color: #999;
         }
     </style>
 </head>
