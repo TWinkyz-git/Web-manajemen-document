@@ -39,11 +39,6 @@ Route::middleware(['auth', 'verified', '2fa_verified'])->group(function () {
     // Audit Logs Routes
     Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
 
-    // Teams Routes
-    Route::resource('teams', TeamController::class);
-    Route::post('/teams/{team}/members', [TeamController::class, 'addMember'])->name('teams.addMember');
-    Route::delete('/teams/{team}/members/{member}', [TeamController::class, 'removeMember'])->name('teams.removeMember');
-    Route::patch('/teams/{team}/members/{member}/role', [TeamController::class, 'updateMemberRole'])->name('teams.updateMemberRole');
 });
 
 require __DIR__.'/auth.php';
