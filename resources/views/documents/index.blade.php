@@ -3,22 +3,22 @@
 @section('title', 'Documents')
 
 @section('content')
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 3px solid #fff; padding-bottom: 20px;">
-    <h2 style="font-size: 28px; font-weight: 900; text-transform: uppercase;">My Documents</h2>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 3px solid #000; padding-bottom: 20px;">
+    <h2 style="font-size: 28px; font-weight: 900; text-transform: uppercase; color: #000;">My Documents</h2>
     <a href="{{ route('documents.create') }}" class="btn">+ Upload</a>
 </div>
 
 @if ($documents->count() > 0)
     <div style="display: grid; gap: 24px;">
         @foreach ($documents as $document)
-            <div style="border: 3px solid #fff; padding: 24px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: start;">
+            <div style="border: 3px solid #000; padding: 24px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: start;">
                 <div>
                     <h3 style="font-size: 20px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px;">
-                        <a href="{{ route('documents.show', $document) }}" style="color: #fff; text-decoration: none; border-bottom: 3px solid #fff;">
+                        <a href="{{ route('documents.show', $document) }}" style="color: #000000; text-decoration: none; border-bottom: 3px solid #FF8C00;">
                             {{ $document->title }}
                         </a>
                     </h3>
-                    <p style="color: #888; font-size: 14px; margin-bottom: 12px;">{{ $document->description }}</p>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 12px;">{{ $document->description }}</p>
                     <div style="display: flex; gap: 16px; font-size: 12px; color: #666;">
                         <span>📂 {{ $document->category->name }}</span>
                         <span>📄 {{ strtoupper($document->file_type) }}</span>

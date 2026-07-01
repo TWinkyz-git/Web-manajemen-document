@@ -16,25 +16,9 @@ class DocumentController extends Controller
 
     public function index()
     {
-        $query = Document::with('user', 'category', 'team');
-        
-        // Jika user punya team preference, filter by team
-        if (request('team_id')) {
-            $teamId = request('team_id');
-            $query->where(function ($q) use ($teamId) {
-                $q->where('user_id', auth()->id())
-                ->orWhere('team_id', $teamId);
-            });
-        } else {
-            // Default: show user's own documents + team documents
-            $query->where(function ($q) {
-                $q->where('user_id', auth()->id());
-                // or where user is team member
-                $q->orWhereIn('team_id', auth()->user()->teams()->pluck('teams.id'));
-            });
-        }
-        
-        $documents = $query->paginate(10);
+        $documents = Document::with('user', 'category')
+            ->where('user_id', auth()->id())
+            ->paginate(10);
         
         return view('documents.index', compact('documents'));
     }
@@ -58,13 +42,9 @@ class DocumentController extends Controller
             $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
             
-            // Read file content
             $fileContent = file_get_contents($file->getRealPath());
-            
-            // Encrypt file content
             $encryptedContent = Crypt::encryptString($fileContent);
             
-            // Save encrypted file
             $filePath = 'documents/' . $fileName . '.encrypted';
             Storage::disk('public')->put($filePath, $encryptedContent);
 
@@ -149,13 +129,9 @@ class DocumentController extends Controller
             documentId: $document->id
         );
 
-        // Read encrypted file
         $encryptedContent = Storage::disk('public')->get($document->file_path);
-        
-        // Decrypt file content
         $decryptedContent = Crypt::decryptString($encryptedContent);
         
-        // Return decrypted file as download
         return response()->streamDownload(function () use ($decryptedContent) {
             echo $decryptedContent;
         }, $document->file_name);
@@ -171,17 +147,12 @@ class DocumentController extends Controller
         );
 
         try {
-            // Read encrypted file
             $encryptedContent = Storage::disk('public')->get($document->file_path);
-            
-            // Decrypt file content
             $decryptedContent = Crypt::decryptString($encryptedContent);
         } catch (\Exception $e) {
-            // File lama tidak ter-encrypt, langsung return raw file
             $decryptedContent = Storage::disk('public')->get($document->file_path);
         }
         
-        // Return file dengan content-type yang sesuai
         $mimeType = 'application/octet-stream';
         if (strtolower($document->file_type) === 'pdf') {
             $mimeType = 'application/pdf';
