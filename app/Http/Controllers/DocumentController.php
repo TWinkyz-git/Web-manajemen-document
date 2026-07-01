@@ -110,12 +110,13 @@ class DocumentController extends Controller
     {
         $this->authorize('delete', $document);
         
-        $document->delete();
-
+        // Log SEBELUM delete!
         AuditLogService::log(
             action: 'delete_document',
             documentId: $document->id
         );
+        
+        $document->delete();
 
         return redirect()->route('documents.index')->with('success', 'Document deleted successfully!');
     }
