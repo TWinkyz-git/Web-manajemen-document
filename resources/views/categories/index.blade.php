@@ -3,8 +3,8 @@
 @section('title', 'Categories')
 
 @section('content')
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 3px solid #fff; padding-bottom: 20px;">
-    <h2 style="font-size: 28px; font-weight: 900; text-transform: uppercase;">Categories</h2>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 3px solid #000; padding-bottom: 20px;">
+    <h2 style="font-size: 28px; font-weight: 900; text-transform: uppercase; color: #000;">Categories</h2>
     @if(auth()->user()->hasRole('admin'))
         <a href="{{ route('categories.create') }}" class="btn">+ New Category</a>
     @endif
@@ -13,10 +13,10 @@
 @if ($categories->count() > 0)
     <div style="display: grid; gap: 16px;">
         @foreach ($categories as $category)
-            <div style="border: 3px solid #fff; padding: 24px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;">
+            <div style="border: 3px solid #000; padding: 24px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;">
                 <div>
-                    <h3 style="font-size: 18px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px;">{{ $category->name }}</h3>
-                    <p style="color: #888; font-size: 14px; margin-bottom: 8px;">{{ $category->description ?: 'No description' }}</p>
+                    <h3 style="font-size: 18px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; color: #000;">{{ $category->name }}</h3>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 8px;">{{ $category->description ?: 'No description' }}</p>
                     <span style="font-size: 12px; color: #666; font-weight: 700;">{{ $category->documents_count }} document(s)</span>
                 </div>
                 @if(auth()->user()->hasRole('admin'))
