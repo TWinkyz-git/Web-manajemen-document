@@ -9,8 +9,12 @@ class AuditLogController extends Controller
 {
     public function index(Request $request)
     {
-        $query = AuditLog::with('user', 'document')
-            ->where('user_id', auth()->id());
+        // Only admin can view audit logs
+        if (!auth()->user()->hasRole('admin')) {
+            abort(403, 'Unauthorized');
+        }
+
+        $query = AuditLog::with('user', 'document');
 
         // Filter by action
         if ($request->filled('action')) {
@@ -24,8 +28,7 @@ class AuditLogController extends Controller
 
         $logs = $query->latest('created_at')->paginate(15);
 
-        $actions = AuditLog::where('user_id', auth()->id())
-            ->distinct()
+        $actions = AuditLog::distinct()
             ->pluck('action');
 
         return view('audit-logs.index', compact('logs', 'actions'));
